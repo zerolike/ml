@@ -1,6 +1,87 @@
 import numpy as np
-from matplotlib import pyplot as plt
 
+
+#exercise
+
+#1. rank(5) col(3)
+'''
+mlist = [[i+1] for i in range(5)]
+for index in range(10):
+    mlist[index%5].append(index+6)
+print mlist
+
+marr = np.array(mlist)  # conversion from list to array
+print marr
+'''
+marr = np.arange(1,16).reshape(3,5).transpose()
+print marr
+sarr = marr[1::2,:] # slicing & substracting for array
+print sarr
+
+#2. elementalwise divide a with b
+a = np.arange(25).reshape(5,5)
+b = np.array([1., 5, 10, 15, 20])
+print a/b
+
+#3.
+oarr = np.random.rand(10,3)
+print oarr
+
+#marr = np.abs(oarr - np.array([0.5, 0.5, 0.5]))
+marr = np.abs(oarr - np.full(3, 0.5))
+print np.full(3, 0.5) # 1d array & fixed value (2d array: np.full((row,col), value)
+
+ilist = np.argmin(marr, axis=1)
+sarr = np.array([oarr[i, ilist[i]] for i in range(10)])
+print sarr
+
+#4 image handling
+from scipy import misc
+import matplotlib.pylab as plt
+
+face = misc.face(gray=True)
+plt.imshow(face)
+
+ny, nx = face.shape
+y, x = np.ogrid[0:ny, 0:nx] # generate multi-demensional meshgrid
+xcenter, ycenter = (660, 300)
+xvalue = (x - xcenter)**2
+yvalue = (y - ycenter)**2
+print xvalue
+print xvalue.shape
+
+mask = (xvalue + yvalue) > 230**2
+print mask
+
+xvalue = np.array([[1,2]])
+yvalue = xvalue.transpose()
+
+print xvalue
+print yvalue
+
+# range vs. xrange
+# x in (x)ranage: dtype = list(xrange)
+
+def f(a,b,c):
+    return a**b - c
+
+print "integral"
+print f(2,2,2)
+
+na = np.ogrid[0:1:24j]
+nb = np.ogrid[0:1:12j]
+nc = np.ogrid[0:1:6j]
+# 24 12 6
+na3 = na.reshape((24,1,1))
+nb3 = nb.reshape((1,12,1))
+nc3 = nc.reshape((1,1,6))
+print f(na3, nb3, nc3).mean()   # 0.1931 ...
+
+print str(na3.ravel().data)
+
+
+'''
+from matplotlib import pyplot as plt
 data = np.loadtxt('/Users/ahnyoungho/GitHub/scipy-lecture-notes/data/populations.txt')
 print data.T
 year, hares, lynxes, carrots = data.T
@@ -15,6 +96,7 @@ sub_pop = data[:,1:] # without year
 print sub_pop.mean(axis=0)
 print np.argmax(sub_pop, axis=1)
 print np.argmin(sub_pop, axis=1)
+'''
 
 '''
 str = "hello world!"
